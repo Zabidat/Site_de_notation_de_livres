@@ -1,0 +1,38 @@
+{
+  
+  "name": "books",
+  
+  "version": "1.0.0",
+  
+  "description": "Créer des API pour la gestion du site de notation de librairies Mon Vieux Grimoire",
+  
+  "main": "server.js",
+  
+  "scripts": {
+  
+    
+  "test": "echo \"Error: no test specified\" && exit 1"
+  
+  },
+  
+  "author": "ZABIDAT",
+  
+  "license": "MIT",
+  
+  "devDependencies": {
+  
+    
+  "nodemon": "^3.1.4"
+  
+  },
+  
+  "dependencies": {
+  
+    
+  "express": "^4.19.2",
+  
+    
+  "mongoose": "^8.6.1"
+  
+  }
+}
