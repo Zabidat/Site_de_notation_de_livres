@@ -30,8 +30,8 @@ app.use((req, res, next) => {
 });
 
 
-//Enregistrez le Router book pour éffectuer toutes les demandes effectuées par bookRoutes
-app.use('/api/book', bookRoutes);
+//Enregistrez le Router principal book pour éffectuer toutes les demandes effectuées par bookRoutes
+app.use('/api/books', bookRoutes);
 //Enregistrer le router User: La route attendue par le front-end(/api/auth) et la route racine liées à l'authentification 
 app.use('/api/auth', userRoutes); 
 

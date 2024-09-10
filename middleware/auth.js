@@ -27,7 +27,7 @@ module.exports = (req, res, next) => {
             userId: userId 
         };   
 
-     //Requête authentifiée, on passe à l'éxecution 
+     //Requête authentifiée, on passe à l'éxecution ou(au Middleware suivant)
      next();  
 
     } catch(error) {
