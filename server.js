@@ -6,17 +6,19 @@ const http = require('http');
 const app = require('./app'); 
 //import du package mongoose(facilite l'intéraction entre mon app Epress et mon Base de données MongoDB)
 const mongoose = require('mongoose'); 
+//Import et configuration du dotenv (pour cacher les informations secretes,etc)
+require('dotenv').config(); 
 
 
 //Logique pour la Connexion de mon API à ma base de donnée à distante ou MongoDB 
-mongoose.connect('mongodb+srv://zabidatprojet6:Monprojet6@cluster0.ql2wp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+mongoose.connect(process.env.MONGO_URL,
 { useNewUrlParser: true,
   useUnifiedTopology: true }) 
 .then(() => console.log('Connexion à MongoDB réussie !'))
 .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
-//Cette Fonction renvoie un port valide et prend en argument val. Elle a comme objectif
+//Cette Fonction gère le numéero du PORT, renvoie un port valide et prend en argument val. Elle a comme objectif
 //de transformer le port en entier(parseInt(val, 10 = base de 10 ne doit pas avoir virgule))
 const normalizePort = val => {
     const port = parseInt(val, 10);

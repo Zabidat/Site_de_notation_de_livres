@@ -11,14 +11,14 @@ const bookSchema = mongoose.Schema({
     author: { type: String, required: true },
     imageUrl: { type: String, required: true },
     year: { type: Number, required: true }, 
-    genre: { type: String, required: true },  
+    genre: { type: String, required: false },  
     ratings:[
         {
             userId: { type: String, required: true },
             grade: { type: Number, required: true }
         }
     ],
-    averageRating: { type: Number, required: true } 
+    averageRating: { type: Number, required: false} 
 }); 
 
 

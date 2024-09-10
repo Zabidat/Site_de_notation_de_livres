@@ -1,1 +1,12 @@
 node_modules 
+.env 
+
+#params or parametre correspond au parametre de URL comme : api/books/:id(params) qui est un objet
+
+#...req.body= récupère tous les propriétés de l'objet avec leur valeurs
+
+#Middleware auth= protège les Routes, Controllers= Recupère les req, les traites et envoi des réponses
+#api/books/:id = Routes/chemin de routes/prend comme parametre id
+#Apres avoir recu une req, c'est le server qui recoit, et on accede a la route et la route accede aux controllers
+#Catch = backend n'arrive pas a cceder au serveur
+#
