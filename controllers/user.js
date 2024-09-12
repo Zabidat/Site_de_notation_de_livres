@@ -2,10 +2,10 @@
 
 //Import du package de cryptage pour les mots de passe
 const bcrypt = require ('bcrypt'); 
-//Import de ce package pour créer et vérifier les tokens d'authentification (Aussi pr créer de news objets)
+//Import de ce package pour créer et vérifier les tokens d'authentification (Aussi pour créer de news objets)
 const jwt = require('jsonwebtoken');  
 
-//Import de notre modele User(creer dans la Base de donnee) car on va lire et enregistrer dans ces middlewares
+//Import de notre modele User(créer dans la Base de donnée) car on va lire et enregistrer dans ces middlewares
 const User = require('../models/User');
 
 
@@ -13,7 +13,7 @@ const User = require('../models/User');
 //const token = process.env.TOKEN_PRIVATE_KEY 
 
 
-//La fonction ou middleware Signup pour la creation de nouveaux utilisateurs dans la base de donnee
+//La FONCTION ou middleware Signup pour la création de nouveaux utilisateurs dans la base de donnée
 exports.signup = (req, res, next) => {
 
     //Hashée ou crytpée le mot de passe dans la BD(étant une function asynchrone)
@@ -21,7 +21,7 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
 
 
-    //On recupere le hash et on l'enregistre dans la base de donne(dans un new user)
+    //On récupère le hash et on l'enregistre dans la base de donnée(dans un new user)
     .then(hash => {
 
         const user = new User({
@@ -46,14 +46,14 @@ exports.signup = (req, res, next) => {
 };
 
 
-//La function Login permet aux utlisateurs existants de se connecter
+//La Fonction Login permet aux utlisateurs existants de se connecter
 exports.login = (req, res, next) => {
 
     User.findOne({email: req.body.email})
 
     .then(user => {
 
-        //On récupère la valeur trouve par notre requete et on verifie si elle est egale a null
+        //On récupère la valeur trouvé par notre requête et on vérifie si elle est égale à null
         if(user === null) {
 
             //Si l'utilisateur n'existe pas dans la BD, on renvoie une erreur 401 avec un message
@@ -61,7 +61,7 @@ exports.login = (req, res, next) => {
         }
         else {
 
-            //Si on a trouvé une valeur(user est enregitré dans la Base de Donnée)
+            //Si on a trouvé une valeur(user est enregistré dans la Base de Donnée)
             //On compare le mot de passe transmit par le client avec le mot de passe ou hash du Base de Donnée 
             bcrypt.compare(req.body.password, user.password)
             .then( valid => {
@@ -75,12 +75,12 @@ exports.login = (req, res, next) => {
                     //si le mot de passe est correct, valide ou correspond
                     //On retourne une réponse 200 avec un objet content user_id et TOKEN 
                     res.status(200).json({
-                        userID: user._id,
+                        userId: user._id,
                         token: jwt.sign(
                             {
                                 //La méthode sign du jsonwebtoken Contient l'ID d'utilisateur,
                                 //Comme un payload personnalisé(les données encodées à l'intérieur de ce token)ou pour la création des news objet
-                                userID: user._id
+                                userId: user._id
 
                             },
                             //Une Clé secrète pour Sécuriser, Chiffrer ou Déchiffrer le token(l'encodage)
@@ -104,4 +104,4 @@ exports.login = (req, res, next) => {
     }); 
 
 
-}
+};

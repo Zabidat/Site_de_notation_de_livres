@@ -11,14 +11,18 @@ exports.addBook = (req, res, next) => {
 
     //Transformer l'objet réçu par le Front-end en JSON
     const bookObject = JSON.parse(req.body.book);
+    bookObject.userId = req.auth.userId;
+    bookObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     const book = new Book({
-      ...bookObject, 
+
+      ...bookObject
+
     });
 
     //Enregistrer book au Base de données
     book.save()  
       .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
+      .catch(error =>{console.log(error);res.status(400).json({ error })});
 };
 
 //Méthode GET: Récupérer tous les livres dans la base de données

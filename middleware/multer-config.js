@@ -1,4 +1,5 @@
-//Import du package multer pour la gestion des Fichiers entrants avec les requêtes HTTP 
+//Import du package Multer pour gérer Multipart Form-Data requêtes(Form-Dataqu'on télécharges ayant des images)
+
 const multer = require('multer')
 
 const MIME_TYPE = {
@@ -49,5 +50,5 @@ const storage = multer.diskStorage({
 }); 
 
 //On exporte notre Middleware multer configuré, en lui passant l'Objet Storage et 
-//SINGLE pour dire à multer de gérer uniquemment les fichiers images (Fichier unique )
+//SINGLE pour dire à multer de gérer uniquemment les fichiers images (Télécharger 1 seul Fichier unique )
 module.exports = multer({storage}).single('image'); 

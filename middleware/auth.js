@@ -15,10 +15,10 @@ module.exports = (req, res, next) => {
         //On divise le string en un tableau autour d'espace entre Bearer et le token[1]qu'on récupère 
         const token = req.headers.authorization.split(' ')[1]; 
 
-        //Décoder le token récupèré via la méthode verify
+        //Décoder le token récupèré via la méthode Verify(Vérifie UserID)
         const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
         
-        //Récupèrer la propriété userID du Token décoder
+        //Récupère la propriété userID du Token décoder
         const userId = decodedToken.userId;
         //Rajouter la valeur de ce userID à l'objet Request qui permettra aux différentes routes de l'utiliser 
         req.auth = {
