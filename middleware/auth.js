@@ -3,9 +3,6 @@
 //Import de jsonwebtoken
 const jwt = require('jsonwebtoken'); 
 
-//Utilisation de ce variable d'environnement pour la clé du token
-//const tokenKey = process.env.TOKEN_PRIVATE_KEY; 
-
 
 //Export de cette function etant notre middleware
 module.exports = (req, res, next) => {
@@ -27,7 +24,7 @@ module.exports = (req, res, next) => {
             userId: userId 
         };   
 
-     //Requête authentifiée, on passe à l'éxecution ou(au Middleware suivant)
+     //Requête authentifiée, on passe à l'éxecution au prochain Middleware (ou Middleware suivant)
      next();  
 
     } catch(error) {

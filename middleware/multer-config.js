@@ -1,9 +1,9 @@
-//Import du package Multer pour gérer Multipart Form-Data requêtes(Form-Dataqu'on télécharges ayant des images)
+//Import du package Multer pour gérer Multipart Form-Data requêtes(Form-Data qu'on télécharge ayant des images)
 
 const multer = require('multer')
 
 const MIME_TYPE = {
-    //MIME-TYPE Génère L'extension du fichier ou d'image à stocker
+    //MIME-TYPE Génère L'extension ou le format du fichier ou d'image à stocker
 	'image/jpg': 'jpg',
 	'image/jpeg': 'jpg',
 	'image/png': 'png',

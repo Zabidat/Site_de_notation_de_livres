@@ -6,7 +6,43 @@ node_modules
 #...req.body= récupère tous les propriétés de l'objet avec leur valeurs
 
 #Middleware auth= protège les Routes, Controllers= Recupère les req, les traites et envoi des réponses
+
 #api/books/:id = Routes/chemin de routes/prend comme parametre id
+
 #Apres avoir recu une req, c'est le server qui recoit, et on accede a la route et la route accede aux controllers
+
 #Catch = backend n'arrive pas a cceder au serveur
-#
+
+#Rating = note du libre;   Average rathing = moyenne de la note
+
+#MULTER = (Fichiers entrants avec les requêtes HTTP)
+
+#HTTP ou requete 200 = une requete russie 
+
+#Body-parser = rend les donnees du corps du requete exploitable 
+
+#find() = retourne tous les éléments 
+
+#findOne()= retoune un seul élément basé sur la fonction de comparaison q on lui passe 
+
+#_id= Objet de comparaison): req.params.id(on récupère id des parametres de route) 
+
+# Nous devons également résoudre l'URL complète de notre image, car req.file.filename ne contient que le segment filename. Nous utilisons req.protocol pour obtenir le premier segment (dans notre cas 'http'). Nous ajoutons '://', puis utilisons req.get('host') pour résoudre l'hôte du serveur (ici, 'localhost:3000'). 
+
+# JavaScript dispose d'une fonction intégrée pour convertir les chaînes JSON en objets JavaScript :
+
+##JSON.parse()
+
+#JavaScript dispose également d'une fonction intégrée permettant de convertir un objet en chaîne JSON :
+
+#JSON.stringify()
+
+# multer est enregistré avant un middleware d'authentification, tout fichier contenu dans une requête, même non authentifiée, sera enregistré sur le système de fichiers. Il est donc essentiel, dans cette situation, d'enregistrer multer après le middleware d'authentification.
+
+#Pour auth Middleware
+# //Utilisation de ce variable d'environnement pour la clé du token
+#//const tokenKey = process.env.TOKEN_PRIVATE_KEY; 
+
+#POUR le controllers User 
+#//Utilisation de ce variable d'environnement pour la clé secrète du token  
+#//const token = process.env.TOKEN_PRIVATE_KEY 

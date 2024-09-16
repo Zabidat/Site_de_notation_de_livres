@@ -9,10 +9,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 
-//Utilisation de ce variable d'environnement pour la clé secrète du token  
-//const token = process.env.TOKEN_PRIVATE_KEY 
-
-
 //La FONCTION ou middleware Signup pour la création de nouveaux utilisateurs dans la base de donnée
 exports.signup = (req, res, next) => {
 
@@ -99,7 +95,7 @@ exports.login = (req, res, next) => {
     })
 
     .catch(error => {
-        //En cas d'erreur d'éxecution de la requete au serveur
+        //En cas d'erreur d'éxecution de la requête au serveur
         res.status(500).json({error}); 
     }); 
 

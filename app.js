@@ -29,7 +29,6 @@ app.use((req, res, next) => {
     //On autorise Certaines methodes , comme les verbes get, post,etc;   
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');  
     //Next pour passer l'éxecution au middleware d'apres 
-    console.log(req.body);
     next();
     
 });
