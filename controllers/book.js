@@ -99,7 +99,7 @@ exports.updateBook = (req, res, next) => {
     ...req.body 
   }; 
 
-  //findOne va rechercher id du req unique ayant le meme _id que l'argument de la requête dans mon mondel Book
+  //findOne va rechercher id unique ayant le même _id que l'argument de la requête dans mon mondel Book
   Book.findOne({_id:req.params.id})
 
   //Envoi du Book retourné dans une promise
@@ -196,17 +196,17 @@ exports.addRating = (req, res, next) => {
       if(!book.ratings.some(rating => rating.userId === req.body.userId)) {
 
         //User n'existe pas dans le tableau Rating du BD(book),Push ajoute id du User et sa note dans le tableau Ratings
-        book.ratings.push({ userId: req.auth.userId, grade: req.params.rating}); 
+        book.ratings.push({ userId: req.auth.userId, grade: req.body.rating}); 
+        console.log(book.ratings);
 
-        //ParseFloat Retourne 1 nombre réel, 
-        //Reduce fait la somme du toutes les grades(notes) et Divise par la taille du tableau(Nbr d'User qui ont notè), ET ON fixe 1 chiffre après la virgule
-        book.averageRating = parseFloat((book.ratings.reduce((a,b) => a + b.grade, 0) / book.ratings.length).toFixed(1)); 
+        //AverageRating va stocker un nombre entier donner ParseInt 
+        //Reduce fait la somme de toutes les grades(notes) et Divise par la taille du tableau(Nbr d'User qui ont noté)
+        book.averageRating = parseInt((book.ratings.reduce((a,b) => a + b.grade, 0)) / (book.ratings.length)); 
+       console.log(book.averageRating); 
 
 
-        //Cherche id du requête, après on Pousse userIs et grade dans le tableau Ratings, 
-        //Après on set la propriété averageRating qui Prend la valeur book.averageRtaing
-        Book.findOneAndUpdate({ _id: req.params.id}, { $push: { ratings: { userId: req.body.userId, grade: req.body.rating} }, 
-          $set: {averageRating: book.averageRating} }, {new: true})
+        //FindOneAndUpdate va trouver le Livre dont l'_id EST le même que l'id de la requête et le mettre à jour
+          Book.findOneAndUpdate({ _id: req.params.id}, book)
 
           .then((bookModified) => res.status(200).json(bookModified))
           .catch(error => res.status(400).json({ error})); 
@@ -218,6 +218,8 @@ exports.addRating = (req, res, next) => {
       }
 
     })
+
+    //Si une erreur se produit(où si la base de donnée ne fonctionne pas)
     .catch(error => res.status(400).json({ error})); 
 
 }; 

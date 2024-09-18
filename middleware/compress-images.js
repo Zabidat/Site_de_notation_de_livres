@@ -9,26 +9,27 @@ const fs = require("fs");
 exports.compressImages = (req, res, next) => {
 
     if (req.file) {
-
+        console.log(req.file.filename);
         //Sharp prend en argument le chemin du requête entrant  
-        sharp(req.file.path)
+        sharp("images/"+req.file.filename)
 
-        //On redimmensionne limage à une hauteur de 1080px 
+        //On redimmensionne l'image à une hauteur de 1080px 
             .resize({height: 1080})
-            .toFormat('webp')
-            .webp({ quality: 80 })
-            .toFile('images/' + req.file.filename + '.webp', (err, info) => {
+            .toFile('images/' + req.file.filename.split('.')[0] + '.webp', (err, info) => {
                 if (err) {
-
+                    console.log(err); 
                     return res.status(400).json({ error: 'Erreur lors de la compression de l\'image.' });
                 }
 
-                //Méthode unlink du fs de Node.js supprime, Le de l'image dans le fichier Images
-                fs.unlink(req.file.path, () => {
+                //Méthode unlink du fs de Node.js supprime, Le fichier de l'image en elle-meme(comme jpg,png,etc) dans le Dossier images
+                fs.unlink('images/'+req.file.filename, () => {
 
-                    req.file.path = 'images/' + req.file.filename + '.webp';
-                    next();
+                    if(err) return console.log(err);
                 })
+
+                //On récupère le nom de l'image et on le renomme en webp
+                req.file.filename = req.file.filename.split('.')[0] + '.webp'; 
+                next();
             });
 
     } else {
