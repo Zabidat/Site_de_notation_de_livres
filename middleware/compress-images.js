@@ -10,27 +10,31 @@ exports.compressImages = (req, res, next) => {
 
     if (req.file) {
         console.log(req.file.filename);
-        //Sharp prend en argument le chemin du requête entrant  
+        //Sharp prend en argument le chemin du requête entrant: Image envoyé par multer
         sharp("images/"+req.file.filename)
 
         //On redimmensionne l'image à une hauteur de 1080px 
             .resize({height: 1080})
             .toFile('images/' + req.file.filename.split('.')[0] + '.webp', (err, info) => {
+
                 if (err) {
                     console.log(err); 
                     return res.status(400).json({ error: 'Erreur lors de la compression de l\'image.' });
                 }
 
                 //Méthode unlink du fs de Node.js supprime, Le fichier de l'image en elle-meme(comme jpg,png,etc) dans le Dossier images
-                fs.unlink('images/'+req.file.filename, () => {
+                 fs.unlink('images/'+req.file.filename, () => {
 
                     if(err) return console.log(err);
-                })
+                 })
 
-                //On récupère le nom de l'image et on le renomme en webp
+                //On  affecte le nouveau nom modifie par sharp
                 req.file.filename = req.file.filename.split('.')[0] + '.webp'; 
                 next();
+               
             });
+
+           
 
     } else {
 

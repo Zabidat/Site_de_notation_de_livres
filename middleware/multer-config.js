@@ -12,7 +12,7 @@ const MIME_TYPE = {
 
 
 //STORAGE: Est l'objet de configuration de multer
-//IL stocke l'etat du mutler càd indique à multer où enregistrer les fichiers entrants
+//IL stocke l'etat du mutler càd indique à multer où enregistrer les fichiers entrants: Récupère l image entrant 
 const storage = multer.diskStorage({
 
     //La Fonction DISKSTORAGE: Configure le chemin et nom de fichier pour les fichiers entrants
@@ -27,11 +27,12 @@ const storage = multer.diskStorage({
 	},
 	filename:  (req, file, callback) => {
 
-        //Fonction FILENAME: Dit à multer quel nom du fichier à utiliser ou à génèrer, et remplace les espaces par des underscores.
+        //Fonction FILENAME: Dit à multer quel nom de l image à créer ou à génèrer, et remplace les espaces par des underscores. 
 
 		//Split céee un Tableau et Divise le nom des photos à partir des espaces
         //Join: va joindre l'élément avec Undescore càd à la palce d'espace on met undescore
-		const filename = file.originalname.split(' ').join('_')
+		const filename = file.originalname.split(' ').join('_').split('-').join('_')
+	
 
         //Split: forme un tableau à partir d'un point
 		const filenameArray = filename.split('.')
@@ -44,8 +45,8 @@ const storage = multer.diskStorage({
 			const extension = MIME_TYPE[file.mimetype]
 
             //On construit le nom du fichier original traité +La date d'aujourd'hui+ L'extension
-		callback(null, filenameWithoutExtention + Date.now() + '.' + extension)
-	}
+		callback(null, filenameWithoutExtention +'_'  + Date.now() + '.' + extension)
+	} 
 
 }); 
 

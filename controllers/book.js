@@ -89,9 +89,9 @@ exports.updateBook = (req, res, next) => {
 
     //Notre Objet bookObject regarde Si l'image ou fichier est trouvé, On transforme LE BODY JSON en FORM-DATA(Objet Javascript) se trouvant dans req.body.book
     ...JSON.parse(req.body.book),
-
     //Ensuite reconstruire l'URL complète de l'Image enregistré avec req.protocole; .get('host'),etc
-    imageUrl: `${req.protocol}: //${req.get('host')}/${req.file.path}`
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+
 
   } :
   {
@@ -119,7 +119,7 @@ exports.updateBook = (req, res, next) => {
         //Méthode unlink du fs de Node.js supprime, Le nom de l'image dans le fichier Images
         fs.unlink(`images/${filename}`, () => {
 
-          Book.findOneAndUpdate({ _id: req.params.id }, bookObject)
+        Book.findOneAndUpdate({ _id: req.params.id },{...bookObject})
 
           //La méthode then envoi une réponse de Réussite au front-end que le Livre est modifié dans la Base de donnée
           .then(() => res.status(200).json({ message: 'Objet modifié !'}))
@@ -199,16 +199,16 @@ exports.addRating = (req, res, next) => {
         book.ratings.push({ userId: req.auth.userId, grade: req.body.rating}); 
         console.log(book.ratings);
 
-        //AverageRating va stocker un nombre entier donner ParseInt 
-        //Reduce fait la somme de toutes les grades(notes) et Divise par la taille du tableau(Nbr d'User qui ont noté)
-        book.averageRating = parseInt((book.ratings.reduce((a,b) => a + b.grade, 0)) / (book.ratings.length)); 
+        //ParseFloat Retourne 1 nombre réel, 
+        //Reduce fait la somme du toutes les grades(notes) et Divise par la taille du tableau(Nbr d'User qui ont notè), ET ON fixe 1 chiffre après la virgule
+        book.averageRating = parseFloat((book.ratings.reduce((a,b) => a + b.grade, 0)) / (book.ratings.length)).toFixed(1); 
        console.log(book.averageRating); 
 
 
         //FindOneAndUpdate va trouver le Livre dont l'_id EST le même que l'id de la requête et le mettre à jour
-          Book.findOneAndUpdate({ _id: req.params.id}, book)
+          Book.findOneAndUpdate({ _id: req.params.id}, book,{new:true})
 
-          .then((bookModified) => res.status(200).json(bookModified))
+          .then((updated) => {res.status(200).json(updated)})
           .catch(error => res.status(400).json({ error})); 
 
       }
