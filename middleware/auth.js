@@ -27,8 +27,9 @@ module.exports = (req, res, next) => {
      //Requête authentifiée, on passe à l'éxecution au prochain Middleware (ou Middleware suivant)
      next();  
 
-    } catch(error) {
-        //En cas de probléme, nous enverrons l'erreur 401
+    } catch(error) { 
+
+        //En cas de problème, nous enverrons l'erreur 401
         res.status(401).json({error}); 
     }
     

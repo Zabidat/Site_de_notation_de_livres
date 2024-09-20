@@ -115,11 +115,13 @@ exports.updateBook = (req, res, next) => {
 
       //split va diviser le chemin d'image, pour nous renvoyé l'image elle même qui correspond au 2ème élément
       const filename = book.imageUrl.split('/images/')[1];
-
-        //Méthode unlink du fs de Node.js supprime, Le nom de l'image dans le fichier Images
+      if(req.file )
+      {
+        //Si on envoi un fichier Image, alors 
+        //Méthode unlink du fs de Node.js supprime,l'image dans le fichier Images
         fs.unlink(`images/${filename}`, () => {
 
-        Book.findOneAndUpdate({ _id: req.params.id },{...bookObject})
+        Book.findOneAndUpdate({ _id: req.params.id },bookObject)
 
           //La méthode then envoi une réponse de Réussite au front-end que le Livre est modifié dans la Base de donnée
           .then(() => res.status(200).json({ message: 'Objet modifié !'}))
@@ -127,6 +129,19 @@ exports.updateBook = (req, res, next) => {
           //Si le Méthode unlink du fs échoue on génère l'erreur 400
           .catch(error => res.status(400).json({ error }));
        }); 
+
+      }
+      else
+      {
+        //Si on modifie les autres parametres sauf Image
+        Book.findOneAndUpdate({ _id: req.params.id },bookObject)
+
+          //La méthode then envoi une réponse de Réussite au front-end que le Livre est modifié dans la Base de donnée
+          .then(() => res.status(200).json({ message: 'Objet modifié !'}))
+
+          //Si le Méthode unlink du fs échoue on génère l'erreur 400
+          .catch(error => res.status(400).json({ error }));
+      }
     }
 
   })
@@ -199,7 +214,7 @@ exports.addRating = (req, res, next) => {
         book.ratings.push({ userId: req.auth.userId, grade: req.body.rating}); 
         console.log(book.ratings);
 
-        //ParseFloat Retourne 1 nombre réel, 
+         //ParseFloat Retourne 1 nombre réel, 
         //Reduce fait la somme du toutes les grades(notes) et Divise par la taille du tableau(Nbr d'User qui ont notè), ET ON fixe 1 chiffre après la virgule
         book.averageRating = parseFloat((book.ratings.reduce((a,b) => a + b.grade, 0)) / (book.ratings.length)).toFixed(1); 
        console.log(book.averageRating); 
