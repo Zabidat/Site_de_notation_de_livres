@@ -234,7 +234,7 @@ exports.addRating = (req, res, next) => {
 
     })
 
-    //Si une erreur se produit(où si la base de donnée ne fonctionne pas)
+    //Si une erreur se produit où si la base de donnée ne fonctionne pas 
     .catch(error => res.status(400).json({ error})); 
 
 }; 
