@@ -17,7 +17,7 @@ const bookCtrl = require('../controllers/book');
 const bookImg = require("../middleware/compress-images"); 
 
 
-//Cette Route répondra qu'au requête POST: Création API POST (réçevoir les datas de la part du frontend)
+//Cette Route répondra qu'au requête POST: Création API POST qui crée un livre Dans la Base de donnée 
 router.post('/',auth, multer, bookImg.compressImages, bookCtrl.addBook); 
   
 //Création API GET ou Middleware des requêtes GET pour récupérer tous les objets au Base de données, avec l'image téléchargée

@@ -8,8 +8,12 @@ const router = express.Router();
 const userCtrl = require('../controllers/user'); 
 
 
-//Création de 2 routes POST pour l'adresse e-mail et mot de passe envoyé par le FRONT-END
+//Création de 2 routes POST envoyé par le FRONT-END:
+
+// Cette Route permet la création de news User dans la BD
 router.post('/signup', userCtrl.signup);
+
+// Cette route permet aux USERS existant de se connecter ou s authentifier
 router.post('/login', userCtrl.login); 
 
 

@@ -1,6 +1,6 @@
-//Ce controller contient la logique metier de 2 fonctions d'authentification
+//Ce controller contient les Opérations lofiques de 2 API d'authentification 
 
-//Import du package de cryptage pour les mots de passe
+//Import du package de cryptage pour les mots de passe permet de sécuriser les MP
 const bcrypt = require ('bcrypt'); 
 //Import de ce package pour créer et vérifier les tokens d'authentification (Aussi pour créer de news objets)
 const jwt = require('jsonwebtoken');  
@@ -9,18 +9,20 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 
-//La FONCTION ou middleware Signup pour la création de nouveaux utilisateurs dans la base de donnée
+//API Signup pour la création de nouveaux utilisateurs dans la base de donnée
 exports.signup = (req, res, next) => {
 
     //Hashée ou crytpée le mot de passe dans la BD(étant une function asynchrone)
-    //1er argument du hash prend le mot de passe du coprs du requête FRont-end, et le salt(10)= nombre de fois où on éxecute l'algorithme du hashage
+    //1er argument du hash prend le mot de passe du coprs du requête FRont-end, et le salt(10)= nombre de fois où on éxecute le hashage pour sécuriser le password
     bcrypt.hash(req.body.password, 10)
 
 
+    //Cette fonction asynchrone nous renvoie une promise avec le hah généré
     //On récupère le hash et on l'enregistre dans la base de donnée(dans un new user)
     .then(hash => {
 
         const user = new User({
+
             //user stocke l'email et password avec leurs valeurs
             //On passe l'email fournie par le corps du requête
             email: req.body.email,
@@ -28,23 +30,25 @@ exports.signup = (req, res, next) => {
             password: hash 
         });
 
-        //Enregistrement de user dans la base de donnée
+        //Enregistrement de USER dans la base de donnée
         user.save()
-        //On envoie un 201 pour la creation d'une ressource et un message
+
+        //On envoie un 201 pour la création d'une ressource et un message
         .then(() =>  res.status(201).json({message: 'Utilisateur crée'}))
         .catch(error => res.status(500).json({error})); 
 
     }) 
 
-    //Traite erreur du fonction hash, On envoi un status 500(erreur du serveur) et l'erreur dans un objet en cas d'echec
+    //En cas d'erreur d'éxecution de la requête au serveur 
     .catch(error => res.status(500).json({error})); 
 
 };
 
 
-//La Fonction Login permet aux utlisateurs existants de se connecter
+//API Login permet aux utlisateurs existants de se connecter
 exports.login = (req, res, next) => {
 
+    //Vérifie si email saisi par User correspond à un email dans la BD 
     User.findOne({email: req.body.email})
 
     .then(user => {
@@ -74,7 +78,7 @@ exports.login = (req, res, next) => {
                         userId: user._id,
                         token: jwt.sign(
                             {
-                                //La méthode sign du jsonwebtoken Contient l'ID d'utilisateur,
+                                //La méthode sign du jsonwebtoken pour encoder un new TOKEN qui Contient l'ID d'utilisateur,
                                 //Comme un payload personnalisé(les données encodées à l'intérieur de ce token)ou pour la création des news objet
                                 userId: user._id
 

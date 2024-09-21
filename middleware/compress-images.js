@@ -1,4 +1,4 @@
-//Le package sharp de Node Js permet de compresser les images en WebP(format d'image moderne offrant une compression superieure et rend le site plus rapide)
+//Le package SHARP de Node Js permet d optimiser les images en WebP(format d'image moderne offrant une compression superieure et rend le site plus rapide)
 const sharp = require('sharp');
 
 
@@ -10,11 +10,14 @@ exports.compressImages = (req, res, next) => {
 
     if (req.file) {
         console.log(req.file.filename);
-        //Sharp prend en argument le chemin du requête entrant: Image envoyé par multer
+
+        //Sharp prend en argument le chemin du requête entrant: Image envoyé par Multer
         sharp("images/"+req.file.filename)
 
         //On redimmensionne l'image à une hauteur de 1080px 
             .resize({height: 1080})
+
+            //La fonction to file sauvegarde les images modifiés par Sharp dans le dossier images avec l'extension WebP qu on lui associe
             .toFile('images/' + req.file.filename.split('.')[0] + '.webp', (err, info) => {
 
                 if (err) {

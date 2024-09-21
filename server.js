@@ -1,24 +1,27 @@
 //Configuration du serveur Node.js (il va attendre des requête http et répondra)
 
-//Import du package http de Node (permet de creer un server)
+//Import du package http qui permet à mon serveur d'utiliser le protocole HTTP 
 const http = require('http');
+
 //Import de notre app Express
 const app = require('./app'); 
+
 //import du package mongoose(facilite l'intéraction entre mon app Epress et mon Base de données MongoDB)
 const mongoose = require('mongoose'); 
+
 //Import et configuration du dotenv (pour cacher les informations secretes,etc)
 require('dotenv').config(); 
 
 
-//Logique pour la Connexion de mon API à ma base de donnée à distante ou MongoDB 
+//La fonction connect facilite la connexion entre notre Application et la Base de Donné
 mongoose.connect(process.env.MONGO_URL,
 { useNewUrlParser: true,
   useUnifiedTopology: true }) 
 .then(() => console.log('Connexion à MongoDB réussie !'))
-.catch(() => console.log('Connexion à MongoDB échouée !'));
+.catch(() => console.log('Connexion à MongoDB échouée !')); 
 
 
-//Cette Fonction gère le numéero du PORT, renvoie un port valide et prend en argument val. Elle a comme objectif
+//Cette Fonction gère le numéro du PORT, renvoie un port valide et prend en argument val. Elle a comme objectif
 //de transformer le port en entier(parseInt(val, 10 = base de 10 ne doit pas avoir virgule))
 const normalizePort = val => {
     const port = parseInt(val, 10);
@@ -42,7 +45,7 @@ const port = normalizePort (process.env.PORT || 4000);
 app.set('port', port); 
 
 
-// Cette Fonction gére la gestion d'erreur du serveur
+// Cette Fonction gère la gestion d'erreur du serveur
 const errorHandler = error => {
 
     if (error.syscall !== 'listen') {
@@ -78,7 +81,7 @@ const server = http.createServer(app);
 // On enregistre la Fonction errorHandler dans le serveur
 server.on('error', errorHandler);
 
-//On enregistre un écouteur d'évènements,enregistrant le port auquel le serveur s'éxecute dans la conseole
+//On enregistre un écouteur d'évènements qui écoute sur le PORT configuré
 server.on('listening', () => {
 
     const address = server.address();

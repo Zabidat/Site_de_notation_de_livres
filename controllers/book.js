@@ -1,13 +1,13 @@
-//Ce fichier stocke la Logique Métiers ou les opérations appliquées à chaque routes de notre appplication
+//Ce fichier stocke les Opérations logiques de chaque API de notre appplication Pour la Gestion du Book
 
-//Import du Schema ou modèle crée (le modèle book que j'ai crée au base de données)
+//Import du Schema de donnée crée (le modèle book que j'ai crée au base de données)
 const Book = require('../models/book'); 
 
 //Import the filesystem module(Module de Systeme de Fichier) de Node.js: intéragir avec le système de fichiers du serveur
 const fs = require('fs'); 
 
 
-//Méthode POST: Export cette fonction pour créer ou Enregistrer un livre
+//API addBook pour les requêtes via la Route POST: Pour créer ou Enregistrer un livre dans la BD
 exports.addBook = (req, res, next) => {
 
   //Transformer l'objet ou chaîne JSON réçu par le Front-end en Form-DATA(Objet Javascript) 
@@ -36,7 +36,7 @@ exports.addBook = (req, res, next) => {
 };
 
 
-//Méthode GET: Récupérer tous les livres dans la base de données
+//API getAllBooks pour les requêtes via la Route GET: Récupérer tous les livres dans la base de données
 exports.getAllBooks = (req,res,next) => {
   
   //La méthode find sans condition nous retourne un tableau contenant les données Book de la base de données
@@ -51,7 +51,7 @@ exports.getAllBooks = (req,res,next) => {
 };
 
 
-//Méthode GET: Récupérez un seul objet(ou livre)dans la base de donnée avec l'_id fourni
+//API getOneBook pour les requêtes via la Route GET: Récupérez un seul objet(ou livre)dans la base de donnée avec l'_id fourni
 exports.getOneBook = (req, res, next) => {
   
   //findOne va trouver le Book unique ayant le même _id que l'argument de la requête
@@ -66,7 +66,7 @@ exports.getOneBook = (req, res, next) => {
 };
 
 
-//Méthode GET: Récupérer Tableau de 3 Livres dans Base Data ayant la meilleure note moyenne dans la collection des livres en utlisant la fonction Mongoose
+//API getBestRatedBooks pour les requêtes via la Route GET: Récupérer Tableau de 3 Livres dans Base Data ayant la meilleure note moyenne dans la collection des livres en utlisant la fonction Mongoose
 exports.getBestRatedBooks = (req, res, next) => {
 
   //Sur mon Modèle Book Find() de MongoDB va retouner tous les éléments du tableau
@@ -82,12 +82,12 @@ exports.getBestRatedBooks = (req, res, next) => {
 };
 
 
-//Méthode PUT: Modifier un livre avec l'_id fourni
+//API updateBook pour les requêtes via la route PUT : Modifier un livre avec l'_id fourni
 exports.updateBook = (req, res, next) => {
 
   const bookObject = req.file ? {
 
-    //Notre Objet bookObject regarde Si l'image ou fichier est trouvé, On transforme LE BODY JSON en FORM-DATA(Objet Javascript) se trouvant dans req.body.book
+    //Notre Objet bookObject regarde Si le fichier est trouvé, On transforme LE BODY JSON en FORM-DATA(Objet Javascript) se trouvant dans req.body.book
     ...JSON.parse(req.body.book),
     //Ensuite reconstruire l'URL complète de l'Image enregistré avec req.protocole; .get('host'),etc
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -155,7 +155,7 @@ exports.updateBook = (req, res, next) => {
 }; 
 
 
-// Méthode Delete pour Supprimer un objet(un livre) avec l'_id Fourni et l'image Correspondante
+// API deleteBook pour les requête via la Route DELETE: Pour Supprimer un livre avec l'_id Fourni 
 exports.deleteBook = (req, res, next) => {
 
  //findOne va trouver le Book unique ayant le même _id que l'argument de la requête 
@@ -197,10 +197,10 @@ exports.deleteBook = (req, res, next) => {
 };
 
 
-//Méthode Post, Cette Route Post prend en argument id fourni : Ajouter ou définir la Note(Rating)d'un Livre et le ReCalculé la Note Moyenne(averageRating)
+//API addRating pour les requêtes via la Route POST:  prend en argument id fourni : Ajouter la Note(Rating)d'un Livre et le ReCalculé la Note Moyenne(averageRating)
 exports.addRating = (req, res, next) => {
 
-  //findOne va trouver le Book dont l'id correspond à l'id du requête (ayant le même _id que l'argument de la requête) 
+  //findOne va trouver le Book dont l'id saisi par User correspond à un id existant dans la BD
   Book.findOne({_id: req.params.id})
 
     .then((book) => {
@@ -215,9 +215,9 @@ exports.addRating = (req, res, next) => {
         console.log(book.ratings);
 
          //ParseFloat Retourne 1 nombre réel, 
-        //Reduce fait la somme du toutes les grades(notes) et Divise par la taille du tableau(Nbr d'User qui ont notè), ET ON fixe 1 chiffre après la virgule
+        //Reduce Calcule la moyenne du note qui est égale à la somme du toutes les notes  et Divise par le Nbr d'User qui ont noté, ET ON fixe 1 chiffre après la virgule
         book.averageRating = parseFloat((book.ratings.reduce((a,b) => a + b.grade, 0)) / (book.ratings.length)).toFixed(1); 
-       console.log(book.averageRating); 
+       console.log(book.averageRating);  
 
 
         //FindOneAndUpdate va trouver le Livre dont l'_id EST le même que l'id de la requête et le mettre à jour

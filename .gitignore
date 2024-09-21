@@ -46,3 +46,10 @@ node_modules
 #POUR le controllers User 
 #//Utilisation de ce variable d'environnement pour la clé secrète du token  
 #//const token = process.env.TOKEN_PRIVATE_KEY 
+
+
+#Le Middleware auth.js = Permet de sécuriser les routes de notre API, en utilisant le package jsonwebtoken pour coder et décodé 						le token en récupérant la propriété UserId ; 
+#Le Middleware multer-config.js = Le package  Multer permet de gérer les Form-Data des requêtes ayant des images, En créant 				les extensions à stocker, Par la suite on utilise la fonction diskStorage de Multer pour configurer la destination pour 				enregistrer les images et enfin il crée ou génère le nom de l’image en utilisant la fonction filename ;  
+# Le Middleware compress-images.js = Ici, j’ai utilisé le package sharp pour optimiser les images envoyé par Multer. Sharp 			modifie les images  comme les redimensionner, ensuite la fonction to file sauvegarde les images modifiés par Sharp dans le dossier  		     images avec l'extension WebP qu on lui associe. 
+
+# La fonction connect de mongoose permet de connecter notre Application  à notre base de donnée en 		utilisant notre 	identifiant et mot de passe fourni par MongoDBAtlas lors de la création de notre 			compte chez MongoDB. 

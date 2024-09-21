@@ -1,11 +1,12 @@
-//Création d'un modèle ou Schema de données dans notre base de données(sert à créer,lire, modifier,supprimer les books qui sont dans la base de données)
+//Création d'un table ou Schema de données dans notre base de données : gére les informationS du LIVRE 
 
 //Import de mongoose
 const mongoose = require('mongoose');
 
 //Création du schema de donnée OU ARCHITECTURE DES COLONNES (1 objet qui présente les différents champs que notre schéma a besoin)
 const bookSchema = mongoose.Schema({
-    //Utilisons la méthode Schema de Mongoose pour créer notre modèle de données
+
+    //La méthode Schema de Mongoose crée notre modèle de données et prend les propriétés ci-dessous
     userId: { type: String, required: true },
     title: { type: String, required: true },
     author: { type: String, required: false },

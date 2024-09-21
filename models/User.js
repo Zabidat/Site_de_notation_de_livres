@@ -1,15 +1,17 @@
-//Creation du modèle User pour stocker les informations User dans la Base de donnée
+//Creation du modèle User pour GÈRE les informations USER ou d'Authentification dans la Base de donnée
 
 
 //Import Mongoose pour créer mon modèle dans la base de donnée
 const mongoose = require('mongoose');
 
-//Import du package validator comme plug-in à notre Model User
+//Import du package validator comme plug-in à notre Model User : Permet à notre email d être unique
 const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = mongoose.Schema({
+
     email:{ type: String, required:true, unique: true},
     password: {type:String, required: true}
+    
 });
 
 //On applique ce plugin validator à notre Schema permettant de dire à Mongoose que la propriété est unique
